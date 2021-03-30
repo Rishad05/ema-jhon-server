@@ -1,15 +1,21 @@
 const express = require('express')
+const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser')
 const cors = require ('cors');
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.j70me.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 require('dotenv').config()
 const app = express()
 app.use(express.json());
 app.use(cors());
-const port = 5000
+const port = 5000;
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.j70me.mongodb.net/emaJohnStore?retryWrites=true&w=majority`;
+app.get('/', (req, res) =>{
+  res.send("hello from db it's working")
+})
+
+
+
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("emaJohnStore").collection("products");
