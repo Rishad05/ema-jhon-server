@@ -7,7 +7,7 @@ require('dotenv').config()
 const app = express()
 app.use(express.json());
 app.use(cors());
-const port = 5000;
+const port = 5500;
 
 
 app.get('/', (req, res) =>{
@@ -31,7 +31,8 @@ client.connect(err => {
 
 
   app.get('/products', (req, res) => {
-    collection.find({})
+    const search = req.query.search;
+    collection.find({name: {$regex: search}})
     .toArray((err, documents) => {
       res.send(documents)
     })
